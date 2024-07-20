@@ -21,7 +21,7 @@ class UserController extends Controller
         } else {
 
             $users = User::where('id', '!=', '1')
-                ->orderBy('desc')
+                ->orderBy('created_at', 'desc')
                 ->paginate(10);
         }
         return view('admin.users.index', compact('users'));
