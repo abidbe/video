@@ -18,18 +18,18 @@
                             <x-input-error class="mt-2" :messages="$errors->get('title')" />
                         </div>
                         <div class="mb-6">
-                            <x-input-label for="video" :value="__('Video')" />
-                            <x-file-input id="video" name="video" class="block w-full mt-1" required />
-                            <x-input-error class="mt-2" :messages="$errors->get('video')" />
-                        </div>
-                        <div class="mb-6">
                             <x-input-label for="category_id" :value="__('Category')" />
-                            <select id="category_id" name="category_id" class="block w-full mt-1">
+                            <x-select id="category_id" name="category_id" class="block w-full mt-1">
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
-                            </select>
+                            </x-select>
                             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
+                        </div>
+                        <div class="mb-10">
+                            <x-input-label for="video" :value="__('Video')" />
+                            <x-file-input id="video" name="video" class="block w-full mt-1" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('video')" />
                         </div>
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Upload') }}</x-primary-button>

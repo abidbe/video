@@ -17,13 +17,22 @@
                         </div>
                     </div>
                     <div class="flex justify-center mb-4">
-                        <video class="rounded-lg" width="640" height="480" controls>
-                            <source src="{{ asset('storage/' . $video->path) }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        @if ($video->path && file_exists(public_path($video->path)))
+                            <video class="rounded-lg" width="640" height="480" controls>
+                                <source src="{{ asset($video->path) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        @elseif ($video->path && Storage::disk('public')->exists($video->path))
+                            <video class="rounded-lg" width="640" height="480" controls>
+                                <source src="{{ asset('storage/' . $video->path) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        @else
+                            <p class="text-red-600 dark:text-red-400">Video not available</p>
+                        @endif
                     </div>
                     <div class="mt-4 flex justify-center">
-                        <x-back-button href="{{ route('videos.index') }}" />
+                        <x-back-button href="{{ url()->previous() }}" />
                     </div>
                 </div>
             </div>

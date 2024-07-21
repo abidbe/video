@@ -1,49 +1,84 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Categories') }}
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            {{ __('Category List') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <a href="{{ route('categories.create') }}"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Create Category
-                    </a>
-                    <table class="min-w-full mt-4">
-                        <thead>
+    <div class="sm:py-12">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white dark:bg-gray-800 sm:shadow-sm sm:rounded-lg">
+                <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <x-create-button href="{{ route('categories.create') }}" />
+                        </div>
+                        <div>
+                            @if (session('success'))
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
+                                    class="text-sm text-green-600 dark:text-green-400">{{ session('success') }}
+                                </p>
+                            @endif
+                            @if (session('danger'))
+                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
+                                    class="text-sm text-red-600 dark:text-red-400">{{ session('danger') }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th class="px-6 py-3 border-b-2 border-gray-300 leading-4 text-left">Name</th>
-                                <th class="px-6 py-3 border-b-2 border-gray-300 leading-4 text-left">Actions</th>
+                                <th scope="col" class="px-6 py-3">
+                                    Id
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Action
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $category)
-                                <tr>
-                                    <td class="px-6 py-4 border-b border-gray-300">{{ $category->name }}</td>
-                                    <td class="px-6 py-4 border-b border-gray-300">
-                                        <a href="{{ route('categories.edit', $category) }}"
-                                            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-                                            Edit
+                            @forelse ($categories as $category)
+                                <tr class="odd:bg-white odd:dark:bg-gray-800 even:bg-gray-50 even:dark:bg-gray-700">
+                                    <td class="px-6 py-4">
+                                        {{ $category->id }}
+                                    </td>
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                        <a href="{{ route('categories.edit', $category) }}" class="hover:underline">
+                                            {{ $category->name }}
                                         </a>
-                                        <form action="{{ route('categories.destroy', $category) }}" method="POST"
-                                            class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                                Delete
-                                            </button>
-                                        </form>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex space-x-3">
+                                            <a href="{{ route('categories.edit', $category) }}"
+                                                class="text-blue-600 dark:text-blue-400">Edit</a>
+                                            <form action="{{ route('categories.destroy', $category) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 dark:text-red-400">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr class="bg-white dark:bg-gray-800">
+                                    <td colspan="3" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                        No Categories Found
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
+                <div class="p-6">{{ $categories->links() }}</div>
             </div>
         </div>
     </div>

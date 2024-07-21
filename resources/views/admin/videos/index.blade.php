@@ -56,7 +56,7 @@
                                         <div class="flex space-x-3">
                                             <a href="{{ route('videos.edit', $video) }}"
                                                 class="text-blue-600 dark:text-blue-400">Edit</a>
-                                            <form action="{{ route('videos.destroy', $video) }}" method="Post">
+                                            <form action="{{ route('videos.destroy', $video) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

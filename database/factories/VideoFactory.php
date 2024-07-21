@@ -21,8 +21,8 @@ class VideoFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'path' => 'videos/test-video.mp4',
-            'thumbnail' => 'thumbnails/test-video.jpg',
+            'path' => 'test-video.mp4',
+            'thumbnail' => 'test-video.jpg',
             'created_at' => now()->subMonths(10),
             'updated_at' => now()->subMonths(10),
             'category_id' => Category::factory(),

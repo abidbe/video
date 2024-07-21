@@ -7,13 +7,14 @@ use App\Models\Video;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
     public function index()
     {
-        $videos = Video::paginate(10);
+        $videos = Video::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.videos.index', compact('videos'));
     }
 
@@ -63,9 +64,21 @@ class VideoController extends Controller
         return redirect()->route('videos.index')->with('success', 'Video created successfully!');
     }
 
-    public function show(Video $video)
+    public function show($id)
     {
-        return view('admin.videos.show', compact('video'));
+        $video = Video::findOrFail($id);
+
+        // Check if the user has access to this video
+        $hasAccess = $video->requests()
+            ->where('user_id', Auth::id())
+            ->where('expires_at', '>', now())
+            ->exists();
+
+        if (Auth::user()->is_admin || $hasAccess) {
+            return view('admin.videos.show', compact('video'));
+        }
+
+        return redirect()->route('dashboard')->with('danger', 'You do not have access to this video.');
     }
 
     public function edit(Video $video)

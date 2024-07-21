@@ -25,13 +25,14 @@
                         </div>
                         <div class="mb-6">
                             <x-input-label for="category_id" :value="__('Category')" />
-                            <select id="category_id" name="category_id" class="block w-full mt-1">
+                            <x-select id="category_id" name="category_id" class="block w-full mt-1">
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
                                         {{ $category->id == $video->category_id ? 'selected' : '' }}>
-                                        {{ $category->name }}</option>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
-                            </select>
+                            </x-select>
                             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
                         </div>
                         <div class="flex items-center gap-4">
