@@ -66,7 +66,7 @@ Aplikasi ini adalah platform video streaming berbasis Laravel dengan dua jenis p
 
 ### Instalasi FFMpeg
 
-## 1. Unduh dan Instal FFMpeg
+1. Unduh dan Instal FFMpeg
 
 -   **Windows**:
 
@@ -87,7 +87,7 @@ Aplikasi ini adalah platform video streaming berbasis Laravel dengan dua jenis p
     sudo apt install ffmpeg
     ```
 
-### 2. Instalasi Paket PHP FFMpeg
+2. Instalasi Paket PHP FFMpeg
 
 Instal paket PHP untuk FFMpeg menggunakan Composer:
 
