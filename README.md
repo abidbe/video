@@ -1,66 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Video Streaming Laravel Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi ini adalah platform video streaming berbasis Laravel dengan dua jenis pengguna: admin dan customer. Admin dapat mengelola video dan memberikan izin akses kepada customer. Customer dapat meminta izin untuk menonton video dan menonton video setelah permintaan mereka disetujui oleh admin.
 
-## About Laravel
+## Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. **Autentikasi Pengguna**: Registrasi, login, dan pengelolaan user oleh admin.
+2. **Manajemen Video oleh Admin**: CRUD video.
+3. **Permintaan Akses Video oleh Customer**: Customer dapat meminta akses untuk menonton video.
+4. **Persetujuan Akses oleh Admin**: Admin dapat menyetujui atau menolak permintaan akses video.
+5. **Penentuan Batas Waktu Akses**: Admin dapat memberikan akses dengan batas waktu tertentu.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Persiapan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Kebutuhan Sistem
 
-## Learning Laravel
+-   PHP >= 8.1
+-   Composer
+-   MySQL
+-   Node.js & NPM
+-   FFMpeg (untuk pengolahan video)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Instalasi
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. **Clone Repository**:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    ```sh
+    git clone https://github.com/abidbe/video.git
+    cd video
+    ```
 
-## Laravel Sponsors
+2. **Instalasi Dependensi**:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    ```sh
+    composer install
+    npm install && npm run dev
+    ```
 
-### Premium Partners
+3. **Konfigurasi Lingkungan**:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    - Salin `.env.example` menjadi `.env`:
+        ```sh
+        cp .env.example .env
+        ```
+    - Sesuaikan konfigurasi database pada `.env`:
+        ```ini
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=video
+        DB_USERNAME=root
+        DB_PASSWORD=
+        ```
 
-## Contributing
+4. **Generate Key dan Storage Link**:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```sh
+    php artisan key:generate
+    php artisan storage:link
+    ```
 
-## Code of Conduct
+5. **Migrasi dan Seed Database**:
+    ```sh
+    php artisan migrate --seed
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Instalasi FFMpeg
 
-## Security Vulnerabilities
+## 1. Unduh dan Instal FFMpeg
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   **Windows**:
 
-## License
+    1. Unduh FFMpeg dari [situs resmi](https://ffmpeg.org/download.html).
+    2. Ekstrak file unduhan.
+    3. Tambahkan path folder `bin` ke `Environment Variables`.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   **Mac**:
+
+    ```sh
+    brew install ffmpeg
+    ```
+
+-   **Linux:**
+
+    ```sh
+    sudo apt update
+    sudo apt install ffmpeg
+    ```
+
+### 2. Instalasi Paket PHP FFMpeg
+
+Instal paket PHP untuk FFMpeg menggunakan Composer:
+
+    composer require php-ffmpeg/php-ffmpeg
+
+## Penutup
+
+Dokumentasi ini mencakup dasar-dasar aplikasi video streaming berbasis Laravel 11. Pastikan untuk melakukan konfigurasi yang diperlukan sesuai dengan lingkungan server yang Anda gunakan. Jika ada masalah atau bug, periksa kembali langkah-langkah instalasi dan konfigurasi, atau lihat dokumentasi resmi Laravel untuk informasi lebih lanjut.
